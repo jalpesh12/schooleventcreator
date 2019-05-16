@@ -19,3 +19,8 @@ Schooleventcreator is help to create events for the school.
 php artisan serve --port=8080
 ```
 - run localhost:8080 in your browser.
+- You can now register or login I have test login if you want to use then you can use
+```
+email - sentra@sentral.com
+password - 123456
+```
