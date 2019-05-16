@@ -14,5 +14,8 @@ Schooleventcreator is help to create events for the school.
 
 ### Setup
 - Start your mysql and run the script from the folder called databasescript from that run the schoolmaster.sql `https://github.com/jalpesh12/schooleventcreator/tree/master/databasescript` into your mysql.
-- Go to project root and run command php artisan serve --port=8080
+- Go to project root and run
+```
+php artisan serve --port=8080
+```
 - run localhost:8080 in your browser.
