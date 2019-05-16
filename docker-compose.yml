@@ -1,0 +1,39 @@
+version: "2"
+services:
+    src:
+        build: 
+          context: ./docker/web
+        ports: 
+            - "9000:80"
+        links:
+            - db
+        volumes:
+            - ./:/var/www/app
+
+    db:
+        image: mysql:5.7
+        ports: 
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: schoolmaster
+            MYSQL_USER: root
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test 
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+    
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db:db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: root
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test 
+volumes:
+    persistent:
