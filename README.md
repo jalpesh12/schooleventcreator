@@ -24,3 +24,8 @@ php artisan serve --port=8080
 email - sentra@sentral.com
 password - 123456
 ```
+## Notes
+
+While registration the address you enter will be the base address for that school. It is used to clacualte distance from school to venue.
+I actually could able to do sorting, filtering functionality. Even I haven't added payment details such as how much payment received.
+Lets have a call or meeting to explain how I did, what I did, what I understand, What I want to do but didn't completed n all such things.
