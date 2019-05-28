@@ -20,9 +20,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        if(Auth::guest()){
+        if (Auth::guest()) {
             $title = 'Welcome to Sentral Education!!';
-        }else{
+        } else {
             $title = 'Welcome '.auth()->user()->name ;
         }
         
@@ -36,7 +36,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        // Get data of the participants who can only be organizer
+        //get data of the participants who can only be organizer
         $organizer= Participant::getOrganizers();
 
         //get only participants which are active
@@ -57,22 +57,22 @@ class EventsController extends Controller
     public function store(Request $request)
     {
         //validation happens here
-        $this->validate($request, [
+        $this->validate($request, array(
             'description' => 'required',
             'eventtype' => 'required',
             'venuename' => 'required',
             'eventdatetime' => 'required',
             'organizer' => 'required',
-            'invitees' => 'required',
-        ]);
+            'invitees' => 'required'
+        ));
 
         //get school details i.e source address;
         $schoolDetails = Event::getSchoolDetails(auth()->user()->email);
 
         //get distance and time
-        $distanceTime = Helper::getDistanceTime($schoolDetails, $request);
+        $distanceTime = Helper::getDistanceTime($schoolDetails->address, $request->input('venuename'));
 
-        // Create Events insert into events Table
+        //create Events insert into events Table
         $event = new Event;
         $event->description = $request->input('description');
         $event->eventtype = $request->input('eventtype');
@@ -82,7 +82,7 @@ class EventsController extends Controller
         $event->duration = $distanceTime['duration'];
         $event->save();
 
-        // Insert invitees into invtees table
+        //insert invitees into invtees table
         Invitees::insertIntoInvitees($event->eventid, $request);
 
         //render to view
@@ -119,7 +119,7 @@ class EventsController extends Controller
     {
         $event = Event::find($id);
 
-        // Get data of the participants who can only be organizer
+        //get data of the participants who can only be organizer
         $organizer= Participant::getOrganizers();
 
         //get only participants which are active
@@ -149,22 +149,22 @@ class EventsController extends Controller
     public function update(Request $request, $id)
     {
         //validation happens here
-        $this->validate($request, [
+        $this->validate($request, array(
             'description' => 'required',
             'eventtype' => 'required',
             'venuename' => 'required',
             'eventdatetime' => 'required',
             'organizer' => 'required',
-            'invitees' => 'required',
-        ]);
+            'invitees' => 'required'
+        ));
 
         //get school details i.e source address;
         $schoolDetails = Event::getSchoolDetails(auth()->user()->email);
 
         //get distance and time
-        $distanceTime = Helper::getDistanceTime($schoolDetails, $request);
+        $distanceTime = Helper::getDistanceTime($schoolDetails->address, $request->input('venuename'));
 
-        // update event and save into database
+        //update event and save into database
         $event = Event::find($id);
         $event->description = $request->input('description');
         $event->eventtype = $request->input('eventtype');
