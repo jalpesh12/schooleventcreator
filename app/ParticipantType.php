@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ParticipantType extends Model
 {
-    // Table name
+    //Table name
     protected $table = 'participanttype';
-    //primary key
+    //Primary key
     public $primaryKey = 'participanttypeid';
     //Timestamp
     public $timestamps = true;

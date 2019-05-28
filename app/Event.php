@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    // Table name
+    //Table name
     protected $table = 'events';
-    //primary key
+    //Primary key
     public $primaryKey = 'eventid';
     //Timestamp
     public $timestamps = true;
 
-    public static function getSchoolDetails($email){
-
+    public static function getSchoolDetails($email)
+    {
         return DB::table('users')
             ->where('email', $email)
             ->select('address')

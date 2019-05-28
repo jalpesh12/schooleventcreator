@@ -24,10 +24,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // $events = Event:find();
         $events = Event::orderBy('created_at', 'desc')->paginate(2);
-        // $events = Event::all()->paginate(10);
-        
         return view('dashboard')->with('events', $events);
     }
 }

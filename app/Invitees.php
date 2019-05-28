@@ -7,37 +7,42 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invitees extends Model
 {
-    // Table name
+    //Table name
     protected $table = 'invitees';
-    //primary key
+    //Primary key
     public $primaryKey = 'inviteeid';
     //Timestamp
     public $timestamps = true;
 
-    public static function insertIntoInvitees($lastEventId, $request){
-        $data = [];
-        foreach($request->input('invitees') as $value){
+    public static function insertIntoInvitees($lastEventId, $request)
+    {
+        $data = array();
+        foreach ($request->input('invitees') as $value) {
             $paymentReceived = '0';
             $attended = '0';
-            if(is_array($request->input('payment'))){
-                if(in_array($value, $request->input('payment'))){
+            if (is_array($request->input('payment'))) {
+                if (in_array($value, $request->input('payment'))) {
                     $paymentReceived = '1';
                 }
             }
-            if(is_array($request->input('attended'))){
-                if(in_array($value, $request->input('attended'))){
+            if (is_array($request->input('attended'))) {
+                if (in_array($value, $request->input('attended'))) {
                     $attended = '1';
                 }
             }
-
-            $data[] = array('eventid'=>$lastEventId, 'participantid' => $value, 'is_payment'=>$paymentReceived, 'is_attended'=>$attended);
+            $data[] = array(
+                        'eventid'=>$lastEventId, 
+                        'participantid' => $value, 
+                        'is_payment'=>$paymentReceived, 
+                        'is_attended'=>$attended
+                    );
         }
 
         return Invitees::insert($data);
     }
 
-    public static function showInviteeDetails($id){
-        
+    public static function showInviteeDetails($id)
+    {
         $invitees = DB::table('invitees')
         ->where('participants.is_active', '1')
         ->where('eventid', $id)
@@ -46,20 +51,17 @@ class Invitees extends Model
         ->get();
 
         //contains names
-        $inviteesNameList = [];
-        $paymentReceivedList = [];
-        $attendedList = [];
+        $inviteesNameList = array();
+        $paymentReceivedList = array();
+        $attendedList = array();
 
         foreach ($invitees as $key => $value) {
             $inviteesNameList[$value->participantid] = $value->participantname;
-            // $selectedInvitees[] = $value->participantid;
-            if($value->is_payment == '1'){
+            if ($value->is_payment == '1') {
                 $paymentReceivedList[$value->participantid] = $value->participantname;
-                // $selectedPayment[] = $value->participantid;
             }
-            if($value->is_attended == '1'){
+            if ($value->is_attended == '1') {
                 $attendedList[$value->participantid] = $value->participantname;
-                // $selectedAttended[] = $value->participantid;
             }
         }
 
@@ -69,7 +71,7 @@ class Invitees extends Model
             'attendedList' => $attendedList,
             'selectedinvitees' => array_keys($inviteesNameList),
             'selectedPayment' => array_keys($paymentReceivedList),
-            'selectedAttended' => array_keys($attendedList),
+            'selectedAttended' => array_keys($attendedList)
         );
     }
 
